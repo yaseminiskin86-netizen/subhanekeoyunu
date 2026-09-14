@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sübhâneke Görev Sandığı - Admin</title>
+<style>
+:root{--navy:#153a78;--navy2:#0c2d61;--gold:#d7a948;--bg:#f5f7fb;--ok:#246b43;--bad:#9a3d3d;--line:#d7deea;--muted:#667085;--shadow:0 10px 30px rgba(15,35,70,.08)}*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#f5f7fb,#fbf6e9);font-family:Segoe UI,Arial,sans-serif;color:#17223a}.wrap{max-width:1550px;margin:auto;padding:24px}h1{color:var(--navy);font-size:36px;margin:0 0 6px}.muted{color:var(--muted)}.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:20px;margin:16px 0;box-shadow:var(--shadow)}.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.stat{border:1px solid #dbe2ed;border-radius:15px;padding:14px}.stat small{display:block;color:var(--muted)}.stat strong{font-size:21px;color:var(--navy)}.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.btn{border:0;border-radius:12px;padding:11px 15px;font-weight:800;background:var(--navy);color:#fff;cursor:pointer}.btn.alt{background:#eef3fb;color:var(--navy);border:1px solid #cad5e7}.btn:disabled{opacity:.45;cursor:not-allowed}.folder-state{font-weight:800;color:var(--muted)}.folder-state.ok{color:var(--ok)}.notice{background:#fff8e8;border:1px solid #ead39b;border-radius:14px;padding:12px 14px;line-height:1.5}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.tab{border:1px solid #cad5e7;background:#fff;color:var(--navy);border-radius:999px;padding:9px 14px;font-weight:800;cursor:pointer}.tab.active{background:var(--navy);color:#fff}.panel.hidden{display:none}.media-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.media-card{border:1px solid #dde4ef;border-radius:16px;padding:14px;background:#fcfdff}.media-card h3{margin:0;color:var(--navy2);font-size:18px}.path{font:12px/1.4 Consolas,monospace;color:#63708a;overflow-wrap:anywhere;margin:5px 0 10px}.preview{height:120px;border:1px solid #e0e5ee;border-radius:12px;background:#fffaf0;display:grid;place-items:center;overflow:hidden;padding:8px}.preview img{max-width:100%;max-height:105px;object-fit:contain}.preview audio{width:100%}.replace-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end;margin-top:10px}.replace-row input{width:100%;font-size:13px}.apply{min-width:105px}.status{font-size:13px;font-weight:800;margin-top:8px;min-height:20px}.ok{color:var(--ok)}.bad{color:var(--bad)}.small{font-size:13px;color:var(--muted);line-height:1.5}.check-table{width:100%;border-collapse:collapse}.check-table th,.check-table td{padding:9px;border-bottom:1px solid #e5e9f0;text-align:left}.check-table th{background:#eef3fb;color:#244b83}.toast{position:fixed;right:18px;bottom:18px;background:#102f63;color:white;padding:13px 17px;border-radius:14px;font-weight:800;box-shadow:var(--shadow);display:none;z-index:99}.toast.show{display:block}@media(max-width:1000px){.grid,.media-grid{grid-template-columns:1fr 1fr}}@media(max-width:650px){.wrap{padding:12px}.grid,.media-grid{grid-template-columns:1fr}.replace-row{grid-template-columns:1fr}.apply{width:100%}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Sübhâneke Görev Sandığı — Admin</h1>
+<p class="muted">Bu panel, oyunun çalışan yapısını değiştirmeden yalnızca proje klasöründeki görsel ve ses dosyalarını yönetir.</p>
+
+<div class="card">
+  <div class="grid">
+    <div class="stat"><small>Ders</small><strong>Kur’an-ı Kerim</strong></div>
+    <div class="stat"><small>Sınıf</small><strong>9. Sınıf</strong></div>
+    <div class="stat"><small>Konu</small><strong>Sübhâneke Duası</strong></div>
+    <div class="stat"><small>Hak</small><strong>3</strong></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Proje klasörünü bağla</h2>
+  <p class="small">Önce ZIP'i klasöre çıkar. Sonra aşağıdaki butondan içinde <b>index.html</b>, <b>admin.html</b> ve <b>assets</b> klasörü bulunan ana proje klasörünü seç. Chrome/Edge klasöre yazma izni isteyecektir.</p>
+  <div class="toolbar">
+    <button id="connectBtn" class="btn">Proje Klasörünü Seç</button>
+    <button id="checkBtn" class="btn alt">Tüm Medyayı Kontrol Et</button>
+    <button id="openGameBtn" class="btn alt">Oyunu Aç</button>
+    <span id="folderState" class="folder-state">Klasör bağlı değil.</span>
+  </div>
+  <p id="supportNote" class="notice">Bir görseli veya sesi değiştirmek için önce proje klasörünü bağla. Ardından ilgili karttan yeni PNG/WAV dosyasını seç ve <b>Projeye Uygula</b> butonuna bas. Seçtiğin dosya oyunun beklediği dosya adının üzerine yazılır; index.html koduna dokunulmaz.</p>
+</div>
+
+<div class="card">
+  <div class="tabs">
+    <button class="tab active" data-tab="cards">Dua Kartları ve Sesler</button>
+    <button class="tab" data-tab="general">Genel Görseller</button>
+    <button class="tab" data-tab="health">Medya Kontrolü</button>
+  </div>
+  <section id="cards" class="panel"><div id="cardGrid" class="media-grid"></div></section>
+  <section id="general" class="panel hidden"><div id="generalGrid" class="media-grid"></div></section>
+  <section id="health" class="panel hidden"><div id="healthBox"><p class="muted">“Tüm Medyayı Kontrol Et” butonuna bas.</p></div></section>
+</div>
+</div>
+<div id="toast" class="toast"></div>
+<script>
+'use strict';
+let rootHandle=null;
+const MEDIA=[
+  {group:'Kart 1',label:'Kart görseli — Allahu Ekber',type:'image',path:'assets/images/arabic_1_allahu_akbar.png'},
+  {group:'Kart 1',label:'Arapça ses — Allahu Ekber',type:'audio',path:'assets/audio/arabic_1.wav'},
+  {group:'Kart 1',label:'Anlam sesi — Allahu Ekber',type:'audio',path:'assets/audio/meaning_1.wav'},
+  {group:'Kart 2',label:'Kart görseli — Sübhânekellâhümme',type:'image',path:'assets/images/arabic_2_subhaneke.png'},
+  {group:'Kart 2',label:'Arapça ses — Sübhânekellâhümme',type:'audio',path:'assets/audio/arabic_2.wav'},
+  {group:'Kart 2',label:'Anlam sesi — Sübhânekellâhümme',type:'audio',path:'assets/audio/meaning_2.wav'},
+  {group:'Kart 3',label:'Kart görseli — Ve bihamdik',type:'image',path:'assets/images/arabic_3_ve_bihamdik.png'},
+  {group:'Kart 3',label:'Arapça ses — Ve bihamdik',type:'audio',path:'assets/audio/arabic_3.wav'},
+  {group:'Kart 3',label:'Anlam sesi — Ve bihamdik',type:'audio',path:'assets/audio/meaning_3.wav'},
+  {group:'Kart 4',label:'Kart görseli — Ve tebârekesmük',type:'image',path:'assets/images/arabic_4_ve_tebarek.png'},
+  {group:'Kart 4',label:'Arapça ses — Ve tebârekesmük',type:'audio',path:'assets/audio/arabic_4.wav'},
+  {group:'Kart 4',label:'Anlam sesi — Ve tebârekesmük',type:'audio',path:'assets/audio/meaning_4.wav'},
+  {group:'Kart 5',label:'Kart görseli — Ve teâlâ ceddük',type:'image',path:'assets/images/arabic_5_ve_teala.png'},
+  {group:'Kart 5',label:'Arapça ses — Ve teâlâ ceddük',type:'audio',path:'assets/audio/arabic_5.wav'},
+  {group:'Kart 5',label:'Anlam sesi — Ve teâlâ ceddük',type:'audio',path:'assets/audio/meaning_5.wav'},
+  {group:'Kart 6',label:'Kart görseli — Ve celle senâük',type:'image',path:'assets/images/arabic_6_ve_celle.png'},
+  {group:'Kart 6',label:'Arapça ses — Ve celle senâük',type:'audio',path:'assets/audio/arabic_6.wav'},
+  {group:'Kart 6',label:'Anlam sesi — Ve celle senâük',type:'audio',path:'assets/audio/meaning_6.wav'},
+  {group:'Kart 7',label:'Kart görseli — Ve lâ ilâhe gayrük',type:'image',path:'assets/images/arabic_7_ve_la_ilahe.png'},
+  {group:'Kart 7',label:'Arapça ses — Ve lâ ilâhe gayrük',type:'audio',path:'assets/audio/arabic_7.wav'},
+  {group:'Kart 7',label:'Anlam sesi — Ve lâ ilâhe gayrük',type:'audio',path:'assets/audio/meaning_7.wav'},
+  {group:'Genel',label:'Giriş panosu',type:'image',path:'assets/images/panel_blue_gold.png'},
+  {group:'Genel',label:'1. bölüm ikonu',type:'image',path:'assets/images/step1.png'},
+  {group:'Genel',label:'2. bölüm ikonu',type:'image',path:'assets/images/step2.png'},
+  {group:'Genel',label:'3. bölüm ikonu',type:'image',path:'assets/images/step3.png'},
+  {group:'Genel',label:'Kapalı sandık',type:'image',path:'assets/images/chest_closed.png'},
+  {group:'Genel',label:'Finalde gösterilen açık sandık',type:'image',path:'assets/images/chest_open.png'}
+];
+const $=id=>document.getElementById(id);
+function toast(msg){const t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),2500)}
+function expectedExt(item){return item.type==='image'?'.png':'.wav'}
+function accepted(item){return item.type==='image'?'.png,image/png':'.wav,audio/wav,audio/x-wav'}
+function makePreview(item,src){const box=document.createElement('div');box.className='preview';if(item.type==='image'){const img=document.createElement('img');img.src=src;img.alt=item.label;box.appendChild(img)}else{const a=document.createElement('audio');a.controls=true;a.preload='metadata';a.src=src;box.appendChild(a)}return box}
+function buildCard(item){
+  const c=document.createElement('div');c.className='media-card';
+  const h=document.createElement('h3');h.textContent=item.label;c.appendChild(h);
+  const p=document.createElement('div');p.className='path';p.textContent=item.path;c.appendChild(p);
+  let preview=makePreview(item,item.path);c.appendChild(preview);
+  const row=document.createElement('div');row.className='replace-row';
+  const input=document.createElement('input');input.type='file';input.accept=accepted(item);input.setAttribute('aria-label',item.label+' için yeni dosya seç');
+  const apply=document.createElement('button');apply.type='button';apply.className='btn apply';apply.textContent='Projeye Uygula';apply.disabled=true;
+  row.append(input,apply);c.appendChild(row);
+  const st=document.createElement('div');st.className='status';st.textContent='Mevcut dosya kullanılıyor.';c.appendChild(st);
+  let selected=null,objectUrl=null;
+  input.addEventListener('change',()=>{
+    selected=input.files&&input.files[0];
+    if(!selected){apply.disabled=true;return}
+    const ext='.'+(selected.name.split('.').pop()||'').toLowerCase();
+    if(ext!==expectedExt(item)){
+      st.textContent='Bu alan için '+expectedExt(item)+' dosyası seçmelisin.';st.className='status bad';apply.disabled=true;return;
+    }
+    if(objectUrl)URL.revokeObjectURL(objectUrl);objectUrl=URL.createObjectURL(selected);
+    const n=makePreview(item,objectUrl);preview.replaceWith(n);preview=n;
+    st.textContent='Yeni dosya önizlemede. Henüz projeye yazılmadı.';st.className='status';apply.disabled=!rootHandle;
+  });
+  apply.addEventListener('click',async()=>{
+    if(!rootHandle){toast('Önce proje klasörünü bağla.');return}
+    if(!selected){toast('Önce yeni dosyayı seç.');return}
+    try{
+      await writeFile(item.path,selected);
+      st.textContent='✓ Değiştirildi: '+selected.name;st.className='status ok';
+      toast(item.label+' güncellendi');
+    }catch(err){console.error(err);st.textContent='⚠ Dosya değiştirilemedi: '+(err.message||err);st.className='status bad'}
+  });
+  c._enable=()=>{if(selected)apply.disabled=false};
+  return c;
+}
+async function getTargetFile(path,create=true){
+  const parts=path.split('/');let dir=rootHandle;
+  for(let i=0;i<parts.length-1;i++)dir=await dir.getDirectoryHandle(parts[i],{create:false});
+  return await dir.getFileHandle(parts[parts.length-1],{create});
+}
+async function writeFile(path,file){
+  const handle=await getTargetFile(path,true);const w=await handle.createWritable();await w.write(file);await w.close();
+}
+async function verifyRoot(handle){
+  try{await handle.getFileHandle('index.html');await handle.getFileHandle('admin.html');await handle.getDirectoryHandle('assets');return true}catch(e){return false}
+}
+async function connectFolder(){
+  if(!('showDirectoryPicker' in window)){
+    $('folderState').textContent='Bu tarayıcı klasöre yazmayı desteklemiyor. Chrome veya Edge kullan.';$('folderState').className='folder-state bad';return
+  }
+  try{
+    const handle=await window.showDirectoryPicker({mode:'readwrite'});
+    if(!(await verifyRoot(handle))){$('folderState').textContent='Yanlış klasör: index.html + admin.html + assets birlikte olmalı.';$('folderState').className='folder-state bad';return}
+    rootHandle=handle;$('folderState').textContent='✓ Bağlı: '+handle.name;$('folderState').className='folder-state ok';
+    document.querySelectorAll('.media-card').forEach(c=>c._enable&&c._enable());toast('Proje klasörü bağlandı');
+  }catch(err){if(err.name!=='AbortError'){console.error(err);$('folderState').textContent='Klasör bağlanamadı.';$('folderState').className='folder-state bad'}}
+}
+async function checkAll(){
+  const box=$('healthBox');box.innerHTML='<p>Kontrol ediliyor…</p>';
+  const table=document.createElement('table');table.className='check-table';table.innerHTML='<thead><tr><th>Medya</th><th>Dosya</th><th>Durum</th></tr></thead><tbody></tbody>';const tb=table.querySelector('tbody');
+  for(const item of MEDIA){
+    const tr=document.createElement('tr');const td1=document.createElement('td');td1.textContent=item.label;const td2=document.createElement('td');td2.textContent=item.path;const td3=document.createElement('td');td3.textContent='Kontrol ediliyor…';tr.append(td1,td2,td3);tb.appendChild(tr);
+    if(rootHandle){try{const fh=await getTargetFile(item.path,false);const f=await fh.getFile();td3.textContent='✓ Bulundu — '+Math.max(1,Math.round(f.size/1024))+' KB';td3.className='ok'}catch(e){td3.textContent='⚠ Bulunamadı';td3.className='bad'}}else{
+      if(item.type==='image'){const im=new Image();await new Promise(resolve=>{im.onload=()=>{td3.textContent='✓ Yükleniyor';td3.className='ok';resolve()};im.onerror=()=>{td3.textContent='⚠ Yüklenemedi';td3.className='bad';resolve()};im.src=item.path+'?v='+Date.now()})}else{const a=new Audio();await new Promise(resolve=>{a.onloadedmetadata=()=>{td3.textContent='✓ '+(a.duration||0).toFixed(1)+' sn';td3.className='ok';resolve()};a.onerror=()=>{td3.textContent='⚠ Yüklenemedi';td3.className='bad';resolve()};a.src=item.path+'?v='+Date.now()})}
+    }
+  }
+  box.replaceChildren(table);toast('Medya kontrolü tamamlandı');
+}
+function render(){
+  const cards=$('cardGrid'),general=$('generalGrid');
+  MEDIA.filter(x=>x.group!=='Genel').forEach(item=>cards.appendChild(buildCard(item)));
+  MEDIA.filter(x=>x.group==='Genel').forEach(item=>general.appendChild(buildCard(item)));
+}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.panel').forEach(x=>x.classList.add('hidden'));b.classList.add('active');$(b.dataset.tab).classList.remove('hidden')}));
+$('connectBtn').addEventListener('click',connectFolder);$('checkBtn').addEventListener('click',checkAll);$('openGameBtn').addEventListener('click',()=>window.open('index.html','_blank'));
+if(!('showDirectoryPicker' in window)){$('supportNote').innerHTML='<b>Not:</b> Bu tarayıcı doğrudan klasör değiştirmeyi desteklemiyor. Admin panelindeki önizleme ve kontrol çalışır; dosya değiştirmek için Chrome veya Edge ile admin.html dosyasını aç.'}
+render();
+</script>
+</body>
+</html>

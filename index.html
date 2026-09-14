@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sübhâneke Görev Sandığı</title>
+<style>
+:root{
+  --navy:#153a78; --navy-2:#0c2d61; --gold:#d7a948; --cream:#fff8e8; --paper:#fffdf7;
+  --ink:#14213d; --muted:#5c6880; --ok:#2f7d4f; --warn:#9a5b17; --bad:#b44b4b;
+  --shadow:0 16px 40px rgba(12,45,97,.18); --radius:26px; --gap:clamp(12px,1.4vw,24px);
+}
+*{box-sizing:border-box} html,body{margin:0;min-height:100%;background:linear-gradient(135deg,#f8f0dc 0%,#eef5f8 45%,#f7efd8 100%);color:var(--ink);font-family:Inter,"Segoe UI",Arial,sans-serif}
+body{min-height:100vh;overflow-x:hidden}
+button,input{font:inherit} button{cursor:pointer}
+button:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:5px solid #ffbf47;outline-offset:4px}
+.hidden{display:none!important}.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+#app{min-height:100vh;display:flex;flex-direction:column}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px clamp(14px,2vw,28px);background:rgba(255,255,255,.88);backdrop-filter:blur(8px);border-bottom:2px solid rgba(21,58,120,.12);position:sticky;top:0;z-index:20}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}.brand strong{font-size:clamp(18px,1.4vw,27px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.brand-dot{width:16px;height:16px;border-radius:50%;background:var(--gold);box-shadow:0 0 0 6px rgba(215,169,72,.18)}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.icon-btn{border:2px solid #c8d2e2;background:#fff;color:var(--navy);border-radius:16px;padding:10px 14px;font-weight:800;min-height:48px}.icon-btn[aria-pressed="true"]{background:#e8f1ff;border-color:var(--navy)}
+main{width:min(1560px,100%);margin:0 auto;padding:clamp(14px,2vw,30px);flex:1;display:flex;flex-direction:column}
+.screen{flex:1;display:flex;flex-direction:column;gap:var(--gap)}
+.card{background:rgba(255,255,255,.94);border:2px solid rgba(21,58,120,.12);border-radius:var(--radius);box-shadow:var(--shadow)}
+.start-wrap{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:clamp(18px,3vw,44px);align-items:center;min-height:calc(100vh - 130px)}
+.hero{padding:clamp(24px,4vw,58px);position:relative;overflow:hidden}.hero:before{content:"";position:absolute;inset:auto -90px -110px auto;width:320px;height:320px;border-radius:50%;background:rgba(215,169,72,.10)}
+.hero-plaque{position:relative;display:grid;place-items:center;width:100%;aspect-ratio:1521/809;max-height:430px;margin:0 auto 18px;container-type:inline-size}.hero-plaque img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:.98}.hero-title{position:relative;z-index:1;color:#fff;text-align:center;width:68%;padding:0 2%;text-shadow:0 2px 5px rgba(0,0,0,.28);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(6px,1.4cqw,14px)}.hero-title h1{font-size:clamp(28px,6.1cqw,62px);line-height:1.02;margin:0;font-weight:900;letter-spacing:-.02em}.hero-title p{font-size:clamp(15px,2.55cqw,25px);line-height:1.22;margin:0;opacity:.97;max-width:92%}
+.outcome{font-size:clamp(19px,1.45vw,26px);line-height:1.5;margin:18px 0 0}.outcome b{color:var(--navy)}
+.login-card{padding:clamp(22px,3vw,38px)}.login-card h2{margin:0 0 10px;font-size:clamp(26px,2.1vw,38px)}.login-card p{color:var(--muted);font-size:18px;line-height:1.5}.field label{display:block;font-weight:800;margin-bottom:8px;font-size:18px}.field input{width:100%;min-height:58px;border:2px solid #b8c5d8;border-radius:16px;padding:12px 16px;font-size:20px;background:#fff}.primary,.secondary,.ghost,.danger{border:0;border-radius:18px;min-height:56px;padding:13px 20px;font-weight:900;font-size:clamp(17px,1.15vw,21px)}.primary{background:linear-gradient(180deg,#28569e,#153a78);color:#fff;box-shadow:0 8px 0 #0c2d61}.primary:active{transform:translateY(3px);box-shadow:0 5px 0 #0c2d61}.secondary{background:#edf4ff;color:var(--navy);border:2px solid #8aa4cf}.ghost{background:#fff;color:var(--navy);border:2px solid #cad4e5}.danger{background:#fff0f0;color:#8c3333;border:2px solid #d8a0a0}.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}.error{color:#9e2d2d;font-weight:800;min-height:24px;margin-top:8px}
+.game-head{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:start}.status{display:grid;grid-template-columns:repeat(4,minmax(120px,1fr));gap:10px}.status-item{background:#fff;border:2px solid #d8e0ec;border-radius:18px;padding:12px 16px;min-height:72px}.status-item small{display:block;color:var(--muted);font-weight:700}.status-item strong{display:block;font-size:clamp(20px,1.7vw,30px);margin-top:4px}.hearts{letter-spacing:3px;color:#b74141}.stepper{display:flex;align-items:center;gap:12px;background:#fff;border:2px solid #d8e0ec;border-radius:22px;padding:10px 14px}.step-node{display:flex;align-items:center;gap:8px}.step-node img{width:58px;height:58px;object-fit:contain;filter:grayscale(1);opacity:.42;transition:.25s}.step-node.active img,.step-node.done img{filter:none;opacity:1}.step-node.done img{box-shadow:0 0 0 5px rgba(47,125,79,.17);border-radius:50%}.step-line{width:32px;height:5px;border-radius:4px;background:#d5dce8}.step-line.done{background:var(--ok)}
+.progress-wrap{background:#fff;border:2px solid #d8e0ec;border-radius:18px;padding:10px 14px}.progress-line{height:14px;background:#e7edf4;border-radius:20px;overflow:hidden}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--gold),#f3cd71);transition:width .3s}.progress-text{display:flex;justify-content:space-between;gap:12px;margin-bottom:7px;font-weight:800}
+.stage-shell{display:grid;grid-template-columns:minmax(0,1fr) minmax(280px,360px);gap:var(--gap);flex:1}.play-area{padding:clamp(18px,2.5vw,34px);display:flex;flex-direction:column;min-height:590px}.stage-title{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:16px}.stage-title h2{margin:0;color:var(--navy);font-size:clamp(28px,2.5vw,44px)}.stage-title p{margin:6px 0 0;color:var(--muted);font-size:clamp(17px,1.2vw,21px);line-height:1.45}.badge{background:#f7edce;color:#6f4a05;border:2px solid #e4c670;padding:8px 14px;border-radius:999px;font-weight:900;white-space:nowrap}
+.side-panel{padding:18px;display:flex;flex-direction:column;gap:16px;align-items:center;justify-content:center;text-align:center}.chest{width:min(100%,310px);max-height:240px;object-fit:contain;filter:drop-shadow(0 18px 12px rgba(0,0,0,.17))}.side-panel h3{margin:0;color:var(--navy);font-size:25px}.side-panel p{margin:0;color:var(--muted);font-size:17px;line-height:1.45}
+.question{font-size:clamp(22px,1.9vw,34px);font-weight:900;line-height:1.35;margin:4px 0 18px}.audio-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:18px}.audio-btn{display:inline-flex;align-items:center;gap:10px;border:2px solid #7e9dcc;border-radius:18px;background:#eef5ff;color:var(--navy);padding:12px 18px;min-height:56px;font-weight:900}.audio-btn .pulse{width:13px;height:13px;border-radius:50%;background:var(--navy)}.audio-btn.playing .pulse{animation:pulse 1s infinite}.audio-note{color:var(--muted);font-weight:700}
+.audio-btn.meaning{background:#fff8e8;border-color:#d7a948;color:#6f4a05}.audio-btn[disabled]{opacity:.48;cursor:not-allowed}.audio-review{margin-top:16px;padding:16px;border:2px solid #e4c670;background:#fffaf0;border-radius:18px}.audio-review strong{display:block;color:#6f4a05;margin-bottom:10px;font-size:18px}
+/* Sandık: oyun boyunca kapalı tek PNG; yalnızca finalde açık tek PNG gösterilir. */
+.chest-stage{position:relative;width:min(100%,350px);min-height:250px;display:grid;place-items:center;overflow:visible;filter:drop-shadow(0 18px 12px rgba(0,0,0,.17))}
+.chest-static{position:relative;z-index:3;display:block;width:100%;max-height:320px;object-fit:contain;pointer-events:none;user-select:none}
+.confetti-layer{position:absolute;z-index:8;inset:-18% 2% -4%;pointer-events:none;overflow:visible}
+.confetti-piece{position:absolute;top:2%;left:var(--x);width:var(--w);height:var(--h);border-radius:2px;background:var(--c);opacity:0;transform:translateY(-10px) rotate(0deg)}
+.chest-stage[data-level="3"] .confetti-piece{animation:confettiFall var(--d) linear var(--delay) infinite;opacity:1}
+@keyframes confettiFall{0%{transform:translate3d(0,-22px,0) rotate(0deg);opacity:0}10%{opacity:1}100%{transform:translate3d(var(--drift),260px,0) rotate(620deg);opacity:0}}
+@media (prefers-reduced-motion:reduce){.confetti-piece{animation:none!important}.chest-stage[data-level="3"] .confetti-piece{opacity:.8;transform:translateY(70px) rotate(18deg)}}
+.options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:stretch}.option{border:3px solid #d8dee9;background:#fff;border-radius:22px;padding:14px;min-height:146px;display:grid;place-items:center;transition:.15s;position:relative}.option:hover{transform:translateY(-2px);border-color:#95a9c7}.option[aria-pressed="true"]{border-color:var(--gold);box-shadow:0 0 0 5px rgba(215,169,72,.16);background:#fffbf0}.option img{width:100%;max-height:118px;object-fit:contain}.option.text-option{font-size:clamp(17px,1.2vw,22px);font-weight:800;line-height:1.35;text-align:left;place-items:start;padding:18px}.option.shake{animation:shake .32s ease-in-out}
+.feedback{margin-top:16px;border-radius:18px;padding:14px 16px;font-size:18px;font-weight:800;min-height:58px;display:flex;align-items:center}.feedback.neutral{background:#f1f5f9;color:#40516d}.feedback.good{background:#e9f6ee;color:#245f3c}.feedback.bad{background:#fff0ea;color:#8a4426}.feedback.info{background:#eef4ff;color:#244b83}
+.controls{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-top:auto;padding-top:18px}.controls .right{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.caption-box{margin-top:12px;border-left:5px solid var(--gold);background:#fffaf0;padding:12px 16px;border-radius:12px;font-size:17px;line-height:1.45}
+.match-card{display:grid;place-items:center;min-height:185px;border:2px solid #d4dce9;border-radius:22px;background:#fffaf0;margin-bottom:18px;padding:18px}.match-card img{max-width:550px;width:100%;max-height:160px;object-fit:contain}
+.sequence-zone{display:grid;gap:18px}.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.slot{min-height:128px;border:3px dashed #8da0bd;background:#f8fbff;border-radius:20px;display:flex;align-items:center;justify-content:center;padding:10px;position:relative}.slot:before{content:attr(data-num);position:absolute;top:8px;left:10px;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:#e6edf8;color:var(--navy);font-weight:900}.slot.filled{border-style:solid;border-color:#c3cfdf;background:#fff}.slot img{max-width:100%;max-height:100px;object-fit:contain}.bank{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.seq-card{min-height:122px;border:3px solid #d5dce8;border-radius:18px;background:#fff;padding:10px;display:grid;place-items:center}.seq-card img{max-width:100%;max-height:98px;object-fit:contain}.seq-card.selected{border-color:var(--gold);box-shadow:0 0 0 5px rgba(215,169,72,.15)}.seq-card.used{opacity:.25;pointer-events:none}.sequence-help{font-size:17px;color:var(--muted);line-height:1.45}.special-box{margin-top:18px;border-top:2px dashed #d4dbe5;padding-top:18px}
+.finish{display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,.8fr);gap:var(--gap);align-items:stretch}.finish-card{padding:clamp(24px,3vw,44px)}.finish-card h2{font-size:clamp(34px,3vw,54px);margin:0 0 10px;color:var(--navy)}.summary-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:18px 0}.summary-item{border:2px solid #d8e0ec;background:#fff;border-radius:18px;padding:14px}.summary-item small{color:var(--muted);font-weight:700}.summary-item strong{display:block;font-size:25px;margin-top:5px}.learned{background:#fffaf0;border:2px solid #ead498;border-radius:20px;padding:16px 20px}.learned h3{margin:0 0 10px}.learned ul{margin:0;padding-left:24px;line-height:1.6}.finish-visual{padding:20px;display:grid;place-items:center;text-align:center}.finish-visual img{max-width:100%;max-height:360px;object-fit:contain}.finish-visual strong{font-size:28px;color:var(--navy)}
+.certificate{display:none;background:#fffdf3;border:12px double var(--navy);padding:50px;text-align:center;min-height:700px}.certificate h1{font-size:48px;color:var(--navy)}.certificate h2{font-size:34px}.certificate p{font-size:22px;line-height:1.6}.certificate .score{font-size:40px;color:#8a620e;font-weight:900}
+.modal{position:fixed;inset:0;background:rgba(8,22,48,.55);display:grid;place-items:center;padding:20px;z-index:60}.modal-box{width:min(760px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:26px;padding:28px;box-shadow:0 30px 90px rgba(0,0,0,.3)}.modal-box h2{margin-top:0;color:var(--navy)}.how-list{display:grid;gap:14px}.how-item{display:grid;grid-template-columns:48px 1fr;gap:12px;align-items:start}.how-num{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--navy);color:#fff;font-weight:900}
+.toast{position:fixed;right:20px;bottom:20px;z-index:80;background:#0f2f63;color:white;padding:14px 18px;border-radius:16px;box-shadow:var(--shadow);max-width:min(460px,calc(100vw - 40px));font-weight:800}
+@keyframes pulse{50%{transform:scale(1.35);opacity:.55}}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.finish-visual{display:grid;place-items:center;padding:30px;text-align:center}.finish-chest-wrap{width:100%;display:grid;place-items:center}.finish-chest-wrap .chest-stage{width:min(100%,520px)}.finish-chest-wrap .chest-static{max-height:430px}.finish-visual strong{display:block;color:var(--navy);font-size:clamp(22px,2vw,34px);margin-top:8px}.finish-visual span{display:block;color:var(--muted);font-size:18px;font-weight:800;margin-top:4px}
+@media (max-width:1100px){.start-wrap,.stage-shell,.finish{grid-template-columns:1fr}.side-panel{display:grid;grid-template-columns:180px 1fr;text-align:left}.chest{width:180px}.status{grid-template-columns:repeat(2,1fr)}.game-head{grid-template-columns:1fr}.stepper{justify-content:center}.options,.bank,.slots{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:650px){main{padding:10px}.topbar{padding:10px}.brand strong{max-width:48vw}.toolbar .icon-btn span.label{display:none}.hero{padding:18px}.hero-plaque{max-height:none}.hero-title{width:76%}.login-card{padding:18px}.status{grid-template-columns:1fr 1fr}.status-item{min-height:62px;padding:9px 11px}.stepper{gap:7px;padding:8px}.step-node img{width:44px;height:44px}.step-line{width:18px}.play-area{min-height:0;padding:16px}.stage-title{display:block}.badge{display:inline-block;margin-top:10px}.side-panel{grid-template-columns:130px 1fr;padding:12px}.chest{width:130px}.options,.bank,.slots{grid-template-columns:1fr}.option{min-height:110px}.slot,.seq-card{min-height:110px}.controls{align-items:stretch;flex-direction:column}.controls .right{justify-content:stretch}.controls button{flex:1}.finish{grid-template-columns:1fr}.summary-grid{grid-template-columns:1fr}.toolbar{gap:5px}.icon-btn{padding:8px 10px;min-height:44px}}
+@media (prefers-reduced-motion: reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}}
+@media print{body *{visibility:hidden!important}.certificate,.certificate *{visibility:visible!important}.certificate{display:block!important;position:absolute;inset:0;margin:0;border-color:#153a78;box-shadow:none}.topbar,main>.screen{display:none!important}@page{size:A4 landscape;margin:12mm}}
+</style>
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="brand"><span class="brand-dot" aria-hidden="true"></span><strong>Sübhâneke Görev Sandığı</strong></div>
+    <div class="toolbar" aria-label="Oyun ayarları">
+      <button id="soundToggle" class="icon-btn" aria-pressed="true" title="Sesi aç veya kapat">🔊 <span class="label">Ses Açık</span></button>
+      <button id="captionToggle" class="icon-btn" aria-pressed="true" title="Altyazıyı aç veya kapat">CC <span class="label">Altyazı Açık</span></button>
+      <button id="fullScreenBtn" class="icon-btn" title="Tam ekran">⛶ <span class="label">Tam Ekran</span></button>
+    </div>
+  </header>
+
+  <main>
+    <section id="startScreen" class="screen" aria-labelledby="startTitle">
+      <div class="start-wrap">
+        <article class="hero card">
+          <div class="hero-plaque">
+            <img src="assets/images/panel_blue_gold.png" alt="" aria-hidden="true">
+            <div class="hero-title"><h1 id="startTitle">Sübhâneke Görev Sandığı</h1><p>Dinle • Anlamı keşfet • Doğru sırayı kur</p></div>
+          </div>
+          <p class="outcome"><b>Hedef:</b> Sübhâneke duasının anlamını yorumlamak, bölümlerini doğru sırayla tanımak ve ezberden okumaya hazırlanmak.</p>
+        </article>
+
+        <aside class="login-card card">
+          <h2>Oyuna Hazır mısın?</h2>
+          <p>Adını ve soyadını yaz. Bilgilerin yalnızca bu oyun oturumunda kullanılır.</p>
+          <div class="field">
+            <label for="studentName">Ad Soyad</label>
+            <input id="studentName" type="text" maxlength="60" autocomplete="off" placeholder="Örn. Ayşe Yılmaz" aria-describedby="nameError">
+            <div id="nameError" class="error" role="alert"></div>
+          </div>
+          <div class="actions">
+            <button id="startBtn" class="primary">Oyuna Başla</button>
+            <button id="howBtn" class="secondary">Nasıl Oynanır?</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="gameScreen" class="screen hidden" aria-labelledby="stageHeading">
+      <div class="game-head">
+        <div class="status" aria-label="Oyun durumu">
+          <div class="status-item"><small>Öğrenci</small><strong id="studentDisplay">—</strong></div>
+          <div class="status-item"><small>Puan</small><strong id="scoreDisplay">0</strong></div>
+          <div class="status-item"><small>Hak</small><strong id="livesDisplay" class="hearts" aria-label="3 hak">♥ ♥ ♥</strong></div>
+          <div class="status-item"><small>İlerleme</small><strong id="progressDisplay">1 / 19</strong></div>
+        </div>
+        <div class="stepper" aria-label="Bölüm ilerlemesi">
+          <div id="stepNode1" class="step-node active"><img src="assets/images/step1.png" alt="1. bölüm"><span class="sr-only">Dinle ve Bul</span></div>
+          <span id="stepLine1" class="step-line"></span>
+          <div id="stepNode2" class="step-node"><img src="assets/images/step2.png" alt="2. bölüm"><span class="sr-only">Anlam Köprüsü</span></div>
+          <span id="stepLine2" class="step-line"></span>
+          <div id="stepNode3" class="step-node"><img src="assets/images/step3.png" alt="3. bölüm"><span class="sr-only">Dua Sırası</span></div>
+        </div>
+      </div>
+
+      <div class="progress-wrap" aria-label="Toplam ilerleme">
+        <div class="progress-text"><span id="progressLabel">Görev 1: Dinle ve Bul</span><span id="progressPercent">0%</span></div>
+        <div class="progress-line" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="progressLabel"><div id="progressFill" class="progress-fill"></div></div>
+      </div>
+
+      <div class="stage-shell">
+        <article class="play-area card">
+          <div class="stage-title">
+            <div><h2 id="stageHeading">Görev 1: Dinle ve Bul</h2><p id="stageSubheading">Seslendirmeyi dinle ve duyduğun dua bölümünü seç.</p></div>
+            <span id="stageBadge" class="badge">1. Görev</span>
+          </div>
+          <div id="dynamicArea"></div>
+          <div id="feedback" class="feedback neutral" role="status" aria-live="polite">Başlamak için seslendirmeyi dinle.</div>
+          <div id="captionBox" class="caption-box">Seslendirme metin alternatifi burada gösterilir.</div>
+          <div class="controls">
+            <button id="restartBtn" class="ghost">↻ Yeniden Başlat</button>
+            <div class="right">
+              <button id="hintBtn" class="secondary">İpucu</button>
+              <button id="checkBtn" class="primary">Kontrol Et</button>
+            </div>
+          </div>
+        </article>
+
+        <aside class="side-panel card">
+          <div id="chestWrap" class="chest-stage" data-level="0" role="img" aria-label="Kapalı görev sandığı">
+            <img id="chestImage" class="chest-static" src="assets/images/chest_closed.png" alt="" aria-hidden="true">
+            <div id="chestConfetti" class="confetti-layer" aria-hidden="true"></div>
+          </div>
+          <div><h3 id="sideTitle">Sandığın ilk kilidi</h3><p id="sideText">Her doğru görev sandığın kilitlerinden birini açar. Dinî metinleri dikkatle dinle ve düşünerek cevapla.</p></div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="finishScreen" class="screen hidden" aria-labelledby="finishTitle">
+      <div class="finish">
+        <article class="finish-card card">
+          <h2 id="finishTitle">Tebrikler!</h2>
+          <p id="finishMessage" class="outcome"></p>
+          <div class="summary-grid">
+            <div class="summary-item"><small>Ad Soyad</small><strong id="sumName">—</strong></div>
+            <div class="summary-item"><small>Toplam Skor</small><strong id="sumScore">0</strong></div>
+            <div class="summary-item"><small>Doğru Tamamlanan</small><strong id="sumCorrect">0</strong></div>
+            <div class="summary-item"><small>Yanlış Deneme</small><strong id="sumWrong">0</strong></div>
+            <div class="summary-item"><small>Başarı</small><strong id="sumPercent">0%</strong></div>
+            <div class="summary-item"><small>Tarih</small><strong id="sumDate">—</strong></div>
+          </div>
+          <div class="learned"><h3>Bu oyunda neler öğrendin?</h3><ul><li>Sübhâneke duasının bölümlerini sesinden tanıdın.</li><li>Duanın bölümlerinin Türkçe anlamlarını eşleştirdin.</li><li>Dua bölümlerini doğru sıraya getirdin ve cenaze namazındaki özel bölümü ayırt ettin.</li></ul></div>
+          <div class="actions"><button id="printCertBtn" class="primary">Sertifikayı Yazdır / PDF</button><button id="txtBtn" class="secondary">Sonuçları TXT İndir</button><button id="newGameBtn" class="ghost">Yeni Oyun</button></div>
+        </article>
+        <aside class="finish-visual card"><div class="finish-chest-wrap">
+          <div id="finishChest" class="chest-stage" data-level="3" role="img" aria-label="Tamamen açılmış görev sandığı">
+            <img id="finishChestImage" class="chest-static" src="assets/images/chest_open.png" alt="" aria-hidden="true">
+            <div id="finishConfettiLayer" class="confetti-layer" aria-hidden="true"></div>
+          </div>
+          <strong>Sandık tamamen açıldı!</strong><span id="finishRank">Görev tamamlandı</span>
+        </div></aside>
+      </div>
+    </section>
+  </main>
+
+  <section id="certificate" class="certificate" aria-hidden="true">
+    <h1>BAŞARI BELGESİ</h1><h2>Sübhâneke Görev Sandığı</h2>
+    <p><strong id="certName">—</strong>, Sübhâneke duasının anlamı ve ezberi konulu eğitici oyunun zorunlu bölümlerini tamamlamıştır.</p>
+    <p class="score">Skor: <span id="certScore">0</span></p><p>Tarih: <span id="certDate">—</span></p>
+    <p>Kur’an-ı Kerim • 9. Sınıf</p>
+  </section>
+</div>
+
+<div id="howModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="howTitle">
+  <div class="modal-box">
+    <h2 id="howTitle">Nasıl Oynanır?</h2>
+    <div class="how-list">
+      <div class="how-item"><span class="how-num">1</span><div><b>Dinle ve Bul:</b> Seslendirilen dua bölümünü üç kart arasından seç.</div></div>
+      <div class="how-item"><span class="how-num">2</span><div><b>Anlam Köprüsü:</b> Arapça dua bölümünü doğru Türkçe anlamıyla eşleştir.</div></div>
+      <div class="how-item"><span class="how-num">3</span><div><b>Dua Sırası:</b> Kartları doğru sıraya yerleştir ve cenaze namazında okunan özel bölümü ayırt et.</div></div>
+      <div class="how-item"><span class="how-num">★</span><div>Her görevde <b>3 hakkın</b> var. İlk deneme 100, ikinci 75, üçüncü 50 puandır.</div></div>
+    </div>
+    <div class="actions"><button id="closeHowBtn" class="primary">Anladım</button></div>
+  </div>
+</div>
+<div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+<audio id="audioPlayer" preload="none"></audio>
+<script>
+'use strict';
+/* ========================= CONFIG ========================= */
+const CONFIG = {
+  version: '1.2.0', contentVersion: '2026.09',
+  gameName: 'Sübhâneke Görev Sandığı', lesson: 'Kur’an-ı Kerim', grade: '9. Sınıf',
+  topic: 'Sübhâneke Duası Anlamı ve Ezberi',
+  learningOutcomes: ['KK.H.4.1 Namaz dualarının anlamlarını yorumlayabilme','KK.H.4.2 Namaz dualarını ezbere okuyabilme'],
+  attemptsPerTask: 3, points: [100,75,50],
+  media: {
+    audio: {
+      arabic1:'assets/audio/arabic_1.wav', arabic2:'assets/audio/arabic_2.wav', arabic3:'assets/audio/arabic_3.wav', arabic4:'assets/audio/arabic_4.wav', arabic5:'assets/audio/arabic_5.wav', arabic6:'assets/audio/arabic_6.wav', arabic7:'assets/audio/arabic_7.wav',
+      meaning1:'assets/audio/meaning_1.wav', meaning2:'assets/audio/meaning_2.wav', meaning3:'assets/audio/meaning_3.wav', meaning4:'assets/audio/meaning_4.wav', meaning5:'assets/audio/meaning_5.wav', meaning6:'assets/audio/meaning_6.wav', meaning7:'assets/audio/meaning_7.wav'
+    },
+    images: {
+      chestClosed:'assets/images/chest_closed.png',
+      chestOpen:'assets/images/chest_open.png'
+    }
+  }
+};
+
+/* ========================= VERİ ========================= */
+const PARTS = [
+  {id:1, image:'assets/images/arabic_1_allahu_akbar.png', label:'Allahu Ekber', meaning:'Allah en büyüktür.', audioArabic:CONFIG.media.audio.arabic1, audioMeaning:CONFIG.media.audio.meaning1, regular:true},
+  {id:2, image:'assets/images/arabic_2_subhaneke.png', label:'Sübhânekellâhümme', meaning:'Allah’ım! Sen her türlü noksanlıktan pak ve uzaksın.', audioArabic:CONFIG.media.audio.arabic2, audioMeaning:CONFIG.media.audio.meaning2, regular:true},
+  {id:3, image:'assets/images/arabic_3_ve_bihamdik.png', label:'Ve bihamdik', meaning:'Seni daima böyle över ve sana hamdederim.', audioArabic:CONFIG.media.audio.arabic3, audioMeaning:CONFIG.media.audio.meaning3, regular:true},
+  {id:4, image:'assets/images/arabic_4_ve_tebarek.png', label:'Ve tebârekesmük', meaning:'Senin adın mübarektir.', audioArabic:CONFIG.media.audio.arabic4, audioMeaning:CONFIG.media.audio.meaning4, regular:true},
+  {id:5, image:'assets/images/arabic_5_ve_teala.png', label:'Ve teâlâ ceddük', meaning:'Senin şanın yücedir.', audioArabic:CONFIG.media.audio.arabic5, audioMeaning:CONFIG.media.audio.meaning5, regular:true},
+  {id:6, image:'assets/images/arabic_6_ve_celle.png', label:'Ve celle senâük', meaning:'Seni övmek yücedir. (Cenaze namazında okunur.)', audioArabic:CONFIG.media.audio.arabic6, audioMeaning:CONFIG.media.audio.meaning6, regular:false, special:true},
+  {id:7, image:'assets/images/arabic_7_ve_la_ilahe.png', label:'Ve lâ ilâhe gayrük', meaning:'Senden başka ilah yoktur.', audioArabic:CONFIG.media.audio.arabic7, audioMeaning:CONFIG.media.audio.meaning7, regular:true}
+];
+const REGULAR_ORDER = [1,2,3,4,5,7];
+const TOTAL_TASKS = 7 + 7 + 6 + 1; // dinleme + anlam + sıralama kartları + özel bölüm
+
+/* ========================= DURUM ========================= */
+const state = {
+  studentFull:'', studentFirst:'', score:0, wrongAttempts:0, correctTasks:0,
+  stage:1, stageIndex:0, lives:CONFIG.attemptsPerTask, selected:null, options:[], order:[],
+  placed:Array(6).fill(null), seqSelected:null, seqAttempts:0, sound:true, captions:true,
+  completedUnits:0, stage2Order:[], stage1Order:[1,2,3,4,5,6,7], sequenceBankOrder:[], stage2Answered:false, chestLevel:0
+};
+
+/* ========================= DOM ========================= */
+const $ = id => document.getElementById(id);
+const startScreen=$('startScreen'), gameScreen=$('gameScreen'), finishScreen=$('finishScreen');
+const audioPlayer=$('audioPlayer');
+
+/* ========================= YARDIMCILAR ========================= */
+function safeText(el,text){ el.textContent = String(text ?? ''); }
+function firstName(full){ return full.trim().split(/\s+/)[0] || 'Öğrenci'; }
+function shuffle(arr){ const a=[...arr]; for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function getPart(id){ return PARTS.find(p=>p.id===id); }
+function pointsForAttempt(){ const idx=CONFIG.attemptsPerTask-state.lives; return CONFIG.points[Math.min(idx,CONFIG.points.length-1)] || 0; }
+function announce(msg,type='neutral'){ const f=$('feedback'); f.className='feedback '+type; safeText(f,msg); }
+function toast(msg){ const t=$('toast'); safeText(t,msg); t.classList.remove('hidden'); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.add('hidden'),2600); }
+function setCaption(text){ const box=$('captionBox'); safeText(box,text); box.classList.toggle('hidden',!state.captions); }
+function updateLives(){ const n=state.lives; safeText($('livesDisplay'),'♥ '.repeat(n)+'♡ '.repeat(Math.max(0,3-n))); $('livesDisplay').setAttribute('aria-label',`${n} hak kaldı`); }
+function updateHud(){ safeText($('scoreDisplay'),state.score); safeText($('studentDisplay'),state.studentFirst); updateLives(); const pct=Math.min(100,Math.round(state.completedUnits/TOTAL_TASKS*100)); safeText($('progressPercent'),pct+'%'); $('progressFill').style.width=pct+'%'; document.querySelector('.progress-line').setAttribute('aria-valuenow',String(pct)); safeText($('progressDisplay'),`${Math.min(state.completedUnits+1,TOTAL_TASKS)} / ${TOTAL_TASKS}`); }
+function setStep(stage){ for(let i=1;i<=3;i++){ const n=$('stepNode'+i); n.classList.toggle('active',i===stage); n.classList.toggle('done',i<stage); if(i<3)$('stepLine'+i).classList.toggle('done',i<stage); } }
+function resetTask(){ state.lives=CONFIG.attemptsPerTask; state.selected=null; updateLives(); }
+function disableCheck(disabled){ $('checkBtn').disabled=!!disabled; $('checkBtn').style.opacity=disabled?'.5':'1'; }
+function setChestLevel(level){
+  const n=Math.max(0,Math.min(3,Number(level)||0)); state.chestLevel=n;
+  const wrap=$('chestWrap');
+  if(!wrap)return;
+  const isOpen=n===3;
+  wrap.dataset.level=String(isOpen?3:0);
+  const img=$('chestImage');
+  if(img) img.src=isOpen?CONFIG.media.images.chestOpen:CONFIG.media.images.chestClosed;
+  wrap.setAttribute('aria-label',isOpen?'Tamamen açılmış görev sandığı':'Kapalı görev sandığı');
+}
+function buildConfetti(container){
+  if(!container || container.childElementCount)return;
+  const colors=['#d7a948','#153a78','#e36a62','#79a66b','#f4d36a','#8f72b6'];
+  for(let i=0;i<26;i++){
+    const p=document.createElement('i'); p.className='confetti-piece';
+    p.style.setProperty('--x',`${4+Math.random()*92}%`); p.style.setProperty('--w',`${5+Math.random()*6}px`); p.style.setProperty('--h',`${9+Math.random()*10}px`);
+    p.style.setProperty('--c',colors[i%colors.length]); p.style.setProperty('--d',`${1.35+Math.random()*1.2}s`); p.style.setProperty('--delay',`${Math.random()*1.2}s`); p.style.setProperty('--drift',`${-55+Math.random()*110}px`);
+    container.appendChild(p);
+  }
+}
+function setCheckLabel(label){ safeText($('checkBtn'),label); }
+function playAudio(src,caption,button){ if(!src){ toast('Bu bölüm için ses dosyası kullanılamıyor. Metinsel içerikle devam edebilirsiniz.'); setCaption(caption||'Ses dosyası kullanılamıyor.'); return; } if(!state.sound){ toast('Ses kapalı. Üst menüden sesi açabilirsin.'); setCaption(caption||''); return; } audioPlayer.pause(); audioPlayer.currentTime=0; audioPlayer.src=src; if(button) button.classList.add('playing'); audioPlayer.play().catch(()=>toast('Ses dosyası oynatılamadı. Metinsel içerikle devam edebilirsin.')); setCaption(caption||'Seslendirme oynatılıyor.'); audioPlayer.onended=()=>{ if(button)button.classList.remove('playing'); } }
+function imgButton(part,selected=false){ const b=document.createElement('button'); b.type='button'; b.className='option'; b.dataset.id=part.id; b.setAttribute('aria-pressed',selected?'true':'false'); b.setAttribute('aria-label',`Arapça dua kartı: ${part.label}`); const im=document.createElement('img'); im.src=part.image; im.alt=`${part.label} yazılı Arapça dua kartı`; b.appendChild(im); b.addEventListener('click',()=>selectOption(part.id,b)); return b; }
+function selectOption(id,button){ state.selected=id; document.querySelectorAll('.option').forEach(x=>x.setAttribute('aria-pressed','false')); button.setAttribute('aria-pressed','true'); disableCheck(false); }
+function reward(points,explanation){ state.score+=points; state.correctTasks++; state.completedUnits++; updateHud(); announce(`Doğru, ${state.studentFirst}! +${points} puan. ${explanation||''}`,'good'); }
+function wrongFeedback(button,hint){ state.wrongAttempts++; state.lives--; updateLives(); if(button){ button.classList.add('shake'); setTimeout(()=>button.classList.remove('shake'),350); button.setAttribute('aria-pressed','false'); } state.selected=null; if(state.lives>0){ announce(`Henüz değil, ${state.studentFirst}. ${state.lives} hakkın kaldı. ${hint||'Tekrar düşün ve yeniden dene.'}`,'bad'); } }
+function completeAfterDelay(fn,ms=1100){ disableCheck(true); setTimeout(fn,ms); }
+
+/* ========================= BAŞLANGIÇ ========================= */
+function startGame(){ const name=$('studentName').value.trim().replace(/\s+/g,' '); if(name.length<2 || name.split(/\s+/).length<2){ safeText($('nameError'),'Lütfen adınızı ve soyadınızı yazın.'); $('studentName').focus(); return; } safeText($('nameError'),''); state.studentFull=name; state.studentFirst=firstName(name); state.score=0; state.wrongAttempts=0; state.correctTasks=0; state.stage=1; state.stageIndex=0; state.completedUnits=0; state.stage2Order=shuffle(PARTS.map(p=>p.id)); state.placed=Array(6).fill(null); state.seqSelected=null; state.seqAttempts=0; state.stage2Answered=false; state.chestLevel=0; setChestLevel(0); startScreen.classList.add('hidden'); finishScreen.classList.add('hidden'); gameScreen.classList.remove('hidden'); renderStage1(); }
+function resetToStart(){ audioPlayer.pause(); Object.assign(state,{studentFull:'',studentFirst:'',score:0,wrongAttempts:0,correctTasks:0,stage:1,stageIndex:0,lives:3,selected:null,completedUnits:0,stage2Answered:false,chestLevel:0}); setChestLevel(0); $('studentName').value=''; gameScreen.classList.add('hidden'); finishScreen.classList.add('hidden'); startScreen.classList.remove('hidden'); $('studentName').focus(); }
+
+/* ========================= GÖREV 1 ========================= */
+function renderStage1(){ state.stage=1; setStep(1); resetTask(); safeText($('stageHeading'),'Görev 1: Dinle ve Bul'); safeText($('stageSubheading'),'Seslendirmeyi dinle ve duyduğun dua bölümünü seç.'); safeText($('stageBadge'),'1. Görev'); safeText($('progressLabel'),'Görev 1: Dinle ve Bul'); safeText($('sideTitle'),'Görev Sandığı'); safeText($('sideText'),'Sandık tüm görevler tamamlanana kadar kapalı kalacaktır.'); setChestLevel(0); setCheckLabel('Kontrol Et'); $('hintBtn').classList.remove('hidden'); $('checkBtn').classList.remove('hidden'); renderListenQuestion(); }
+function renderListenQuestion(){ resetTask(); const correctId=state.stage1Order[state.stageIndex]; const correct=getPart(correctId); const distractors=shuffle(PARTS.filter(p=>p.id!==correctId)).slice(0,2); state.options=shuffle([correct,...distractors]); state.selected=null; const area=$('dynamicArea'); area.replaceChildren(); const q=document.createElement('div'); q.className='question'; q.textContent=`${state.stageIndex+1}. seslendirmeyi dinle. Hangi dua bölümü okunuyor?`; area.appendChild(q); const ar=document.createElement('div'); ar.className='audio-row'; const play=document.createElement('button'); play.type='button'; play.className='audio-btn'; play.innerHTML='<span class="pulse" aria-hidden="true"></span>🔊 Bölümü Dinle'; play.addEventListener('click',()=>playAudio(correct.audioArabic,`Seslendirilen bölüm: ${correct.label}.`,play)); ar.append(play); const note=document.createElement('span'); note.className='audio-note'; note.textContent='İstediğin kadar dinleyebilirsin.'; ar.append(note); area.appendChild(ar); const opts=document.createElement('div'); opts.className='options'; state.options.forEach(p=>opts.appendChild(imgButton(p))); area.appendChild(opts); announce('Seslendirmeyi dinle ve bir kart seç.','neutral'); setCaption('Seslendirmeyi başlatmak için “Bölümü Dinle” butonuna bas.'); disableCheck(true); updateHud(); }
+function checkStage1(){ if(state.selected==null){ announce('Önce bir dua kartı seç.','info'); return; } const correctId=state.stage1Order[state.stageIndex]; const btn=document.querySelector(`.option[data-id="${state.selected}"]`); if(state.selected===correctId){ const pts=pointsForAttempt(); const part=getPart(correctId); reward(pts,`Bu bölüm “${part.label}”dir.`); state.stageIndex++; completeAfterDelay(()=>{ if(state.stageIndex>=state.stage1Order.length) stageComplete(1); else renderListenQuestion(); }); } else { wrongFeedback(btn,'Seslendirmeyi bir kez daha dinleyebilirsin.'); if(state.lives<=0){ const part=getPart(correctId); announce(`Bu bölüm “${part.label}” idi. Şimdi doğru kartı görüp sıradaki seslendirmeye geçiyoruz.`,'info'); state.completedUnits++; updateHud(); state.stageIndex++; completeAfterDelay(()=>{ if(state.stageIndex>=state.stage1Order.length) stageComplete(1); else renderListenQuestion(); },1600); } } }
+
+/* ========================= GÖREV 2 ========================= */
+function renderStage2(){ state.stage=2; state.stageIndex=0; state.stage2Answered=false; setStep(2); setCheckLabel('Kontrol Et'); safeText($('stageHeading'),'Görev 2: Anlam Köprüsü'); safeText($('stageSubheading'),'Arapça bölümü dinle, doğru Türkçe anlamı seç; cevaptan sonra anlam sesini ayrıca dinle.'); safeText($('stageBadge'),'2. Görev'); safeText($('progressLabel'),'Görev 2: Anlam Köprüsü'); safeText($('sideTitle'),'Görev Sandığı'); safeText($('sideText'),'Sandık kapalı kalıyor. Arapça okunuş ile Türkçe anlamı eşleştir.'); setChestLevel(0); renderMeaningQuestion(true); }
+function renderMeaningQuestion(playIntro=false){
+  resetTask(); state.stage2Answered=false; setCheckLabel('Kontrol Et');
+  const correctId=state.stage2Order[state.stageIndex], part=getPart(correctId); const area=$('dynamicArea'); area.replaceChildren();
+  const q=document.createElement('div'); q.className='question'; q.textContent='Bu dua bölümünün anlamı hangisidir?'; area.appendChild(q);
+  const mc=document.createElement('div'); mc.className='match-card'; const im=document.createElement('img'); im.src=part.image; im.alt=`${part.label} yazılı Arapça dua kartı`; mc.appendChild(im); area.appendChild(mc);
+  const preAudio=document.createElement('div'); preAudio.className='audio-row';
+  const arabicBtn=document.createElement('button'); arabicBtn.type='button'; arabicBtn.className='audio-btn'; arabicBtn.innerHTML='<span class="pulse" aria-hidden="true"></span>🔊 Arapçasını Dinle'; arabicBtn.addEventListener('click',()=>playAudio(part.audioArabic,`Arapça okunuş: ${part.label}.`,arabicBtn)); preAudio.appendChild(arabicBtn);
+  const lockNote=document.createElement('span'); lockNote.className='audio-note'; lockNote.textContent='Türkçe anlam sesi, cevabı kontrol ettikten sonra açılır.'; preAudio.appendChild(lockNote); area.appendChild(preAudio);
+  const wrongs=shuffle(PARTS.filter(p=>p.id!==correctId)).slice(0,3); const meanings=shuffle([part,...wrongs]); const opts=document.createElement('div'); opts.className='options';
+  meanings.forEach(p=>{ const b=document.createElement('button'); b.type='button'; b.className='option text-option'; b.dataset.id=p.id; b.setAttribute('aria-pressed','false'); b.textContent=p.meaning; b.addEventListener('click',()=>selectOption(p.id,b)); opts.appendChild(b); }); area.appendChild(opts);
+  announce('Arapça okunuşu dinleyebilir, ardından doğru Türkçe anlamı seçebilirsin.','neutral'); setCaption(`Kart: ${part.label}. Önce Arapça okunuşu dinle; doğru anlamı seçtikten sonra Türkçe anlam sesini ayrıca dinleyebilirsin.`); disableCheck(true); updateHud();
+}
+function showMeaningReview(part,wasCorrect=true){
+  state.stage2Answered=true; document.querySelectorAll('.option').forEach(b=>b.disabled=true);
+  const review=document.createElement('div'); review.className='audio-review'; review.id='meaningReview';
+  const title=document.createElement('strong'); title.textContent=wasCorrect?'Doğru eşleştirme — şimdi iki sesi ayrı ayrı pekiştir.':'Doğru eşleştirme gösterildi — iki sesi ayrı ayrı dinleyebilirsin.'; review.appendChild(title);
+  const row=document.createElement('div'); row.className='audio-row'; row.style.marginBottom='0';
+  const arBtn=document.createElement('button'); arBtn.type='button'; arBtn.className='audio-btn'; arBtn.innerHTML='<span class="pulse" aria-hidden="true"></span>🔊 Arapçasını Dinle'; arBtn.addEventListener('click',()=>playAudio(part.audioArabic,`Arapça okunuş: ${part.label}.`,arBtn)); row.appendChild(arBtn);
+  const trBtn=document.createElement('button'); trBtn.type='button'; trBtn.className='audio-btn meaning'; trBtn.innerHTML='<span class="pulse" aria-hidden="true"></span>🔊 Anlamını Dinle'; trBtn.addEventListener('click',()=>playAudio(part.audioMeaning,`Türkçe anlam: ${part.meaning}`,trBtn)); row.appendChild(trBtn); review.appendChild(row);
+  $('dynamicArea').appendChild(review); setCheckLabel(state.stageIndex===state.stage2Order.length-1?'Görevi Tamamla':'Sonraki Kart'); disableCheck(false); setCaption(`Arapça: ${part.label}. Türkçe anlam: ${part.meaning}`);
+}
+function checkStage2(){
+  if(state.stage2Answered){ state.stageIndex++; if(state.stageIndex>=state.stage2Order.length) stageComplete(2); else renderMeaningQuestion(false); return; }
+  if(state.selected==null){ announce('Önce bir anlam seç.','info'); return; }
+  const correctId=state.stage2Order[state.stageIndex]; const btn=document.querySelector(`.option[data-id="${state.selected}"]`); const part=getPart(correctId);
+  if(state.selected===correctId){ reward(pointsForAttempt(),part.special?'Bu bölüm cenaze namazında okunur.':'Anlam eşleştirmesi doğru.'); announce(`Doğru, ${state.studentFirst}! Şimdi Arapça okunuşu ve Türkçe anlamı ayrı ayrı dinleyebilirsin.`,'good'); showMeaningReview(part,true); }
+  else { wrongFeedback(btn,'Arapça okunuşu tekrar dinleyip anahtar anlamı düşün.'); if(state.lives<=0){ announce(`Doğru anlam: “${part.meaning}”`,'info'); state.completedUnits++; updateHud(); showMeaningReview(part,false); } }
+}
+
+/* ========================= GÖREV 3 ========================= */
+function renderStage3(){ state.stage=3; state.stageIndex=0; state.placed=Array(6).fill(null); state.seqSelected=null; state.seqAttempts=0; state.sequenceBankOrder=shuffle(REGULAR_ORDER); setStep(3); resetTask(); safeText($('stageHeading'),'Görev 3: Dua Sırası'); safeText($('stageSubheading'),'Kartları seçerek doğru sıraya yerleştir. Sürüklemek zorunda değilsin.'); safeText($('stageBadge'),'3. Görev'); safeText($('progressLabel'),'Görev 3: Dua Sırası'); safeText($('sideTitle'),'Son Görev'); safeText($('sideText'),'Sandık hâlâ kapalı. Son görevi tamamladığında tamamen açılacak.'); setChestLevel(0); setCheckLabel('Kontrol Et'); renderSequence(); }
+function renderSequence(){ const area=$('dynamicArea'); area.replaceChildren(); const q=document.createElement('div'); q.className='question'; q.textContent='Sübhâneke duasının bölümlerini doğru sıraya yerleştir.'; area.appendChild(q); const help=document.createElement('p'); help.className='sequence-help'; help.textContent='Bir kartı seç, sonra yerleştirmek istediğin numaralı alana tıkla. Dolu alana tıklarsan kart bankaya geri döner.'; area.appendChild(help); const zone=document.createElement('div'); zone.className='sequence-zone'; const slots=document.createElement('div'); slots.className='slots'; for(let i=0;i<6;i++){ const s=document.createElement('button'); s.type='button'; s.className='slot'; s.dataset.num=String(i+1); s.dataset.slot=String(i); s.setAttribute('aria-label',`${i+1}. sıra alanı`); s.addEventListener('click',()=>handleSlot(i)); if(state.placed[i]){ s.classList.add('filled'); const p=getPart(state.placed[i]); const im=document.createElement('img'); im.src=p.image; im.alt=`${i+1}. sırada ${p.label}`; s.appendChild(im); } slots.appendChild(s); } zone.appendChild(slots); const bank=document.createElement('div'); bank.className='bank'; state.sequenceBankOrder.forEach(id=>{ const p=getPart(id), b=document.createElement('button'); b.type='button'; b.className='seq-card'; b.dataset.id=id; const used=state.placed.includes(id); if(used)b.classList.add('used'); if(state.seqSelected===id)b.classList.add('selected'); b.setAttribute('aria-pressed',state.seqSelected===id?'true':'false'); b.setAttribute('aria-label',`Sıralama kartı: ${p.label}`); const im=document.createElement('img'); im.src=p.image; im.alt=`${p.label} yazılı kart`; b.appendChild(im); b.addEventListener('click',()=>{ if(used)return; state.seqSelected=id; renderSequence(); announce(`${p.label} kartı seçildi. Şimdi sıra alanını seç.`,'info'); }); bank.appendChild(b); }); zone.appendChild(bank); area.appendChild(zone); const special=document.createElement('div'); special.className='special-box'; special.innerHTML='<b>Not:</b> “Ve celle senâük” kartı normal namaz sıralamasına eklenmez; cenaze namazında okunan özel bölümdür.'; area.appendChild(special); announce('Kartı seç, ardından numaralı sıra alanına yerleştir.','neutral'); setCaption('Sıralama görevi: Dua kartlarını 1’den 6’ya doğru sıraya yerleştir.'); disableCheck(state.placed.some(x=>x===null)); updateHud(); }
+function handleSlot(i){ if(state.placed[i]){ state.placed[i]=null; state.seqSelected=null; renderSequence(); return; } if(state.seqSelected==null){ announce('Önce bankadan bir dua kartı seç.','info'); return; } state.placed[i]=state.seqSelected; state.seqSelected=null; renderSequence(); }
+function checkStage3(){ if(state.placed.some(x=>x===null)){ announce('Önce altı sıra alanının tamamını doldur.','info'); return; } state.seqAttempts++; const ok=state.placed.every((id,i)=>id===REGULAR_ORDER[i]); if(ok){ const pts=CONFIG.points[Math.min(state.seqAttempts-1,2)]; state.score+=pts; state.correctTasks++; state.completedUnits+=6; updateHud(); announce(`Sıralama doğru, ${state.studentFirst}! +${pts} puan. Şimdi cenaze namazında okunan özel bölümü seç.`,'good'); completeAfterDelay(renderSpecialQuestion,1200); } else { state.wrongAttempts++; state.lives--; updateLives(); if(state.lives>0){ announce(`Sıralama henüz doğru değil. ${state.lives} hakkın kaldı. İlk kart tekbirdir; son bölüm “Ve lâ ilâhe gayrük”tür.`,'bad'); } else { state.placed=[...REGULAR_ORDER]; announce('Doğru sıra gösterildi. Kartların akışını bir kez incele; ardından özel bölüm sorusuna geçeceğiz.','info'); state.completedUnits+=6; updateHud(); completeAfterDelay(renderSpecialQuestion,1900); } } }
+function renderSpecialQuestion(){ resetTask(); const area=$('dynamicArea'); area.replaceChildren(); const q=document.createElement('div'); q.className='question'; q.textContent='Cenaze namazında Sübhâneke duasına eklenen özel bölüm hangisidir?'; area.appendChild(q); const choices=shuffle([getPart(6),getPart(5),getPart(7)]); const opts=document.createElement('div'); opts.className='options'; choices.forEach(p=>opts.appendChild(imgButton(p))); area.appendChild(opts); announce('Özel bölümü seç.','neutral'); setCaption('Cenaze namazında Sübhâneke duasına eklenen özel bölümü seç.'); disableCheck(true); state.stageIndex=1; }
+function openChestAndFinish(){
+  safeText($('sideTitle'),'Tüm görevler tamamlandı!');
+  safeText($('sideText'),'Son görev tamamlandı. Açık sandık ve konfeti gösteriliyor!');
+  setChestLevel(3); buildConfetti($('chestConfetti'));
+  announce(`Tebrikler ${state.studentFirst}! Tüm görevleri tamamladın. Açık sandık gösteriliyor.`,'good');
+  completeAfterDelay(finishGame,2400);
+}
+function checkSpecial(){ if(state.selected==null){ announce('Önce bir kart seç.','info'); return; } const btn=document.querySelector(`.option[data-id="${state.selected}"]`); if(state.selected===6){ reward(pointsForAttempt(),'“Ve celle senâük” cenaze namazında okunan özel bölümdür.'); openChestAndFinish(); } else { wrongFeedback(btn,'Kırmızı yazıyla ayrıştırılmış özel kartı hatırla.'); if(state.lives<=0){ announce('Doğru cevap “Ve celle senâük” kartıdır.','info'); state.completedUnits++; updateHud(); openChestAndFinish(); } } }
+
+/* ========================= BÖLÜM GEÇİŞİ ========================= */
+function stageComplete(n){
+  announce(`Harika ${state.studentFirst}! ${n}. görevi tamamladın.`,'good'); toast(`${n}. görev tamamlandı!`);
+  if(n===1){
+    setChestLevel(0); safeText($('sideTitle'),'1. Görev tamamlandı'); safeText($('sideText'),'Sandık final ödülü için kapalı kalıyor. Şimdi Anlam Köprüsü görevine geçiyorsun.');
+    completeAfterDelay(renderStage2,1500);
+  } else {
+    setChestLevel(0); safeText($('sideTitle'),'2. Görev tamamlandı'); safeText($('sideText'),'Sandık hâlâ kapalı. Son görevi tamamladığında tamamen açılacak.');
+    completeAfterDelay(renderStage3,1700);
+  }
+}
+
+/* ========================= İPUCU ========================= */
+function showHint(){ if(state.stage===1){ announce('İpucu: Seslendirmeyi tekrar dinle; kartların başındaki ve sonundaki ses farklarına dikkat et.','info'); } else if(state.stage===2){ const p=getPart(state.stage2Order[state.stageIndex]); announce(p.special?'İpucu: Bu kart cenaze namazına özgü ek bölümle ilgilidir.':'İpucu: Cümlenin temel anlamını düşün; övgü, yücelik, mübareklik veya teklik kavramlarından hangisine işaret ediyor?','info'); } else { announce('İpucu: Tekbir ilk sıradadır; dua “Sübhânekellâhümme” ile devam eder ve “Ve lâ ilâhe gayrük” ile biter.','info'); } }
+
+/* ========================= SONUÇ ========================= */
+function finishGame(){ audioPlayer.pause(); gameScreen.classList.add('hidden'); finishScreen.classList.remove('hidden'); $('finishChest').dataset.level='3'; $('finishChestImage').src=CONFIG.media.images.chestOpen; buildConfetti($('finishConfettiLayer')); const maxScore=(7+7+2)*100; const percent=Math.max(0,Math.min(100,Math.round(state.score/maxScore*100))); const date=new Date().toLocaleDateString('tr-TR'); safeText($('finishMessage'),`${state.studentFull}, Sübhâneke Görev Sandığı'nı tamamladın. Dua bölümlerini dinledin, anlamlarını eşleştirdin ve doğru sıralamayı kurdun.`); safeText($('sumName'),state.studentFull); safeText($('sumScore'),state.score); safeText($('sumCorrect'),state.correctTasks); safeText($('sumWrong'),state.wrongAttempts); safeText($('sumPercent'),percent+'%'); safeText($('sumDate'),date); safeText($('certName'),state.studentFull); safeText($('certScore'),state.score); safeText($('certDate'),date); safeText($('finishRank'),percent>=90?'Sübhâneke Ustası':percent>=70?'Çok İyi':percent>=50?'Biraz Daha Tekrar':'Tekrar Dinleyelim'); setTimeout(()=>$('printCertBtn').focus(),100); }
+function downloadTxt(){ const maxScore=(7+7+2)*100; const percent=Math.round(state.score/maxScore*100); const text=[`Ad Soyad: ${state.studentFull}`,`Ders: ${CONFIG.lesson}`,`Sınıf: ${CONFIG.grade}`,`Konu: ${CONFIG.topic}`,`Skor: ${state.score}`,`Doğru Tamamlanan: ${state.correctTasks}`,`Yanlış Deneme: ${state.wrongAttempts}`,`Başarı: %${percent}`,`Tamamlama: %100`,`Tarih: ${new Date().toLocaleDateString('tr-TR')}`].join('\n'); const blob=new Blob(['\ufeff'+text],{type:'text/plain;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='subhaneke_oyunu_sonuc.txt'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),1000); }
+
+/* ========================= OLAYLAR ========================= */
+$('startBtn').addEventListener('click',startGame); $('studentName').addEventListener('keydown',e=>{if(e.key==='Enter')startGame()});
+$('howBtn').addEventListener('click',()=>{ $('howModal').classList.remove('hidden'); $('closeHowBtn').focus(); }); $('closeHowBtn').addEventListener('click',()=>{ $('howModal').classList.add('hidden'); $('howBtn').focus(); });
+$('howModal').addEventListener('click',e=>{if(e.target===$('howModal'))$('closeHowBtn').click()});
+$('checkBtn').addEventListener('click',()=>{ if(state.stage===1)checkStage1(); else if(state.stage===2)checkStage2(); else if(state.stage===3 && state.stageIndex===0)checkStage3(); else checkSpecial(); });
+$('hintBtn').addEventListener('click',showHint); $('restartBtn').addEventListener('click',()=>{ if(confirm('Oyunu yeniden başlatmak istediğine emin misin? Tüm puan ve ilerleme silinecek.')) resetToStart(); });
+$('soundToggle').addEventListener('click',()=>{ state.sound=!state.sound; audioPlayer.pause(); $('soundToggle').setAttribute('aria-pressed',String(state.sound)); $('soundToggle').innerHTML=(state.sound?'🔊 <span class="label">Ses Açık</span>':'🔇 <span class="label">Ses Kapalı</span>'); toast(state.sound?'Ses açıldı.':'Ses kapatıldı.'); });
+$('captionToggle').addEventListener('click',()=>{ state.captions=!state.captions; $('captionToggle').setAttribute('aria-pressed',String(state.captions)); $('captionToggle').innerHTML='CC <span class="label">'+(state.captions?'Altyazı Açık':'Altyazı Kapalı')+'</span>'; $('captionBox').classList.toggle('hidden',!state.captions); });
+$('fullScreenBtn').addEventListener('click',async()=>{ try{ if(!document.fullscreenElement) await document.documentElement.requestFullscreen(); else await document.exitFullscreen(); }catch(e){ toast('Tam ekran bu tarayıcıda kullanılamıyor.'); } });
+$('printCertBtn').addEventListener('click',()=>window.print()); $('txtBtn').addEventListener('click',downloadTxt); $('newGameBtn').addEventListener('click',resetToStart);
+document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!$('howModal').classList.contains('hidden')) $('closeHowBtn').click(); });
+
+/* ========================= BAŞLATMA ========================= */
+(function init(){ safeText($('studentDisplay'),'—'); setCaption('Seslendirme metin alternatifi burada gösterilir.'); $('chestImage').src=CONFIG.media.images.chestClosed; $('finishChestImage').src=CONFIG.media.images.chestOpen; buildConfetti($('chestConfetti')); buildConfetti($('finishConfettiLayer')); })();
+</script>
+</body>
+</html>
